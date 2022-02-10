@@ -5,7 +5,7 @@
 # ultimate spoofing tool for arp and dns#
 #  This Tool is Under Gnu GPl License   #
 #  Written By Eslam Mohamed Elabd       #
-#	https://github.com//Crypt00o        #
+#	https://github.com//Crypt00o    #
 #########################################
 
 from os import system as run
