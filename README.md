@@ -7,8 +7,8 @@ Ultimate Spoofing Tool
 **` bash -c  "$(wget -O- https://raw.githubusercontent.com/Crypt00o/Cryptof/main/install.sh)" `**
 --
 
-**`git clone "https://github.com/Crypt00o/Cryptof" ; cd Cryptof ;source install.sh`**
---
+
+
 > You Need to Be a Root User to use this Tool
 Or use it with a sudo 
 ---
