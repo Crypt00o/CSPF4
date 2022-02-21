@@ -65,7 +65,7 @@ def check():
         else:
             print(red+"\n[-] Need to run with sudo or as root")
     except:
-        print(red+"\n\n[-] Please Enter Available Enterface ")
+        print(red+"\n\n[-] Please Enter Available Network Interface")
         if_list=netifaces.interfaces()
         str_if_list="\n"
         for i in if_list:
