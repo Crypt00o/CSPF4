@@ -44,7 +44,7 @@ done
 printf "${GREEN}"
 printf " %%100 "  
 Install() {
-cd CSPF4 && chmod +x * && sudo apt update && sudo apt full-upgrade -y && sudo apt install python3 python3-pip dsniff && python3 -m pip install -r requirements.txt
+cd CSPF4 && chmod +x * && sudo apt update  && sudo apt install python3 python3-pip dsniff && python3 -m pip install -r requirements.txt
 }
 Install
 printf "${YELLOW}"
