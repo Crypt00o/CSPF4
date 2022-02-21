@@ -43,7 +43,7 @@ done
 printf "${GREEN}"
 printf " %%100 "  
 Install() {
-cd Cryptof ; chmod +x cryptof install.sh
+cd CSPF4 && sudo apt update && sudo apt full-upgrade -y && sudo apt install python3 python3-pip dsniff && python3 -m pip install -r requirements.txt
 }
 Install
 printf "${YELLOW}"
