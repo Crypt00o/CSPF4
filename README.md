@@ -1,10 +1,11 @@
-# Cryptof
-Ultimate Spoofing Tool 
+# CSPF4
+Ultimate MITM Framework
+For Scanning , Spoofing , Sniffing and Being anonymously 
 --
 *Author : Eslam Mohamed Elabd*
 --
 ## Installaion on Debian based linux (Debian-Ubuntu-Kali)
-**` bash -c  "$(wget -O- https://raw.githubusercontent.com/Crypt00o/Cryptof/main/install.sh)" `**
+**` bash -c  "$(wget -O- https://raw.githubusercontent.com/Crypt00o/CSPF4/main/install.sh)" `**
 --
 
 
@@ -13,10 +14,10 @@ Ultimate Spoofing Tool
 Or use it with a sudo 
 ---
 ## Tool Usage 
->`sudo ./cryptof <gateway ip> <target ip> <net interface > <Domain to Spoof "use \* to spoof all domains" >   `
+>`sudo ./cspf4 <net interface> <target ip> <net interface > " >   `
 ---
 ### Example:
->`sudo ./cryptof 192.168.1.1 192.168.1.133 wlan0 google.com`
+>`sudo ./cspf4 wlan0 `
 ---
 >***this project is Written and Developed by Eslam Mohamed Elabd
 Under the gnu GPL 3 license .***
