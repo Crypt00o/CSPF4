@@ -14,7 +14,7 @@ For Scanning , Spoofing , Sniffing and Being anonymously
 Or use it with a sudo 
 ---
 ## Tool Usage 
->`sudo ./cspf4 <net interface> <target ip> <net interface > " >   `
+>`sudo ./cspf4 <net interface> `
 ---
 ### Example:
 >`sudo ./cspf4 wlan0 `
