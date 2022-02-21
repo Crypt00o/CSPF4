@@ -16,24 +16,25 @@ printf "${BLUE}"
 printf "=========================================\n"
 printf "${GREEN}"
 echo "                                                  
-  ####   #####   #   #  #####   #####   ####   ###### 
- #    #  #    #   # #   #    #    #    #    #  #      
- #       #    #    #    #    #    #    #    #  #####  
- #       #####     #    #####     #    #    #  #      
- #    #  #   #     #    #         #    #    #  #      
-  ####   #    #    #    #         #     ####   #      
+ 
+     a88888b. .d88888b   888888ba   88888888b dP   dP 
+    d8'   `88 88.    "'  88    `8b  88        88   88 
+    88        `Y88888b. a88aaaa8P' a88aaaa    88aaa88 
+    88              `8b  88         88             88 
+    Y8.   .88 d8'   .8P  88         88             88 
+     Y88888P'  Y88888P   dP         dP             dP 
+     oooooooooooooooooooooooooooooooooooooooooooooooooo
+     Ultimate Mitm Framework Made By Crypt00o
+     Eslam Mohamed : https://github.com/Crypt00o
   "
-         
-printf "${ORANGE}"
-printf "\nCryptof Ultimate Spoofing Tool ! , Written By Eslam Mohamed"
 printf "${BLUE}"
-printf "========================================="
+printf "\n========================================="
 echo ' ';echo ' '
 sleep 5
 printf "${BLUE}"
 printf "\n[-] Starting Daownloading [-]\n"
 printf "${YELLOW}"
-git clone "https://github.com/Crypt00o/Cryptof"
+git clone "https://github.com/Crypt00o/CSPF4"
 printf "${GREEN}"
 echo "[+] Preparing Resources [+] \n"
 printf "${YELLOW}"
@@ -43,7 +44,7 @@ done
 printf "${GREEN}"
 printf " %%100 "  
 Install() {
-cd CSPF4 && sudo apt update && sudo apt full-upgrade -y && sudo apt install python3 python3-pip dsniff && python3 -m pip install -r requirements.txt
+cd CSPF4 && chmod +x * && sudo apt update && sudo apt full-upgrade -y && sudo apt install python3 python3-pip dsniff && python3 -m pip install -r requirements.txt
 }
 Install
 printf "${YELLOW}"
@@ -51,8 +52,7 @@ printf "\n\t\t[+] Done [+] "
 printf "${RED}" 
 printf "\n\n now you can use :\n "
 printf "${GREEN}"
-printf "sudo ./cryptof <gateway ip> <target ip> <net interface> <Domain to spoof >\n"
-printf "Example $ sudo ./cryptof 192.168.1.1 192.168.1.108 wlan0 yahoo.com \n"
+printf "sudo ./cspf4 <interface> \nsudo ./cspf4 wlan0\n"
 printf "${RED}"
 printf "Use this Tool for Educational Purpose Only !\n "
 printf "Developer not responsible for any Bad or ILLegal Usage of this tool..\n"
