@@ -4,7 +4,7 @@ For Scanning , Spoofing , Sniffing and Being anonymously
 --
 *Author : Eslam Mohamed Elabd*
 --
-## Installaion on Debian based linux (Debian-Ubuntu-Kali)
+## Installaion on Debian based linux (Debian-Ubuntu-Kali-Parrot)
 **` bash -c  "$(wget -O- https://raw.githubusercontent.com/Crypt00o/CSPF4/main/install.sh)" `**
 --
 
