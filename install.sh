@@ -32,7 +32,7 @@ printf "\n[-] Starting Daownloading [-]\n"
 printf "${YELLOW}"
 git clone "https://github.com/Crypt00o/CSPF4"
 printf "${GREEN}"
-echo "[+] Preparing Resources [+] \n"
+echo "[+] Preparing Resources [+] "
 printf "${YELLOW}"
 for i in {1..50} 
 do sleep 0.05 ;printf "."
