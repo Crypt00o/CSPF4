@@ -16,14 +16,10 @@ printf "${BLUE}"
 printf "=========================================\n"
 printf "${GREEN}"
 echo "                                                  
- 
-     a88888b. .d88888b   888888ba   88888888b dP   dP 
-    d8'   `88 88.    "'  88    `8b  88        88   88 
-    88        `Y88888b. a88aaaa8P' a88aaaa    88aaa88 
-    88              `8b  88         88             88 
-    Y8.   .88 d8'   .8P  88         88             88 
-     Y88888P'  Y88888P   dP         dP             dP 
-     oooooooooooooooooooooooooooooooooooooooooooooooooo
+     ########################################
+     #                 CSPF4                #
+     ########################################
+     
      Ultimate Mitm Framework Made By Crypt00o
      Eslam Mohamed : https://github.com/Crypt00o
   "
